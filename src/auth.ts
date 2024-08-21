@@ -14,6 +14,8 @@ const pool = new Pool({
   connectionTimeoutMillis: 2000,
 })
 
+const url = process.env.NEXT_PUBLIC_STAGEHAND_USER_SERVICE_URL
+
 export const { handlers, signIn, signOut, auth } = NextAuth(() => {
   return {
     adapter: PostgresAdapter(pool),
@@ -23,18 +25,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth(() => {
       signIn: () => {
         return true;
       },
-      jwt({token, user, account, profile, isNewUser}) {
+      async jwt({token, user, account, profile, isNewUser}, props) { 
         if (user) { // User is available during sign-in
-          token.id = user.id
+          const response: User = await fetch(url + '/user/'+ user?.id);
+
+          const userObject: User = await response.json();
+
+          token.id = userObject.id
+          token.billing_id = userObject.billing_id
+          token.artist_list = userObject.artist_list
+          token.track_list = userObject.track_list
           token.isNewUser = isNewUser
         }
 
         return token
       },
       session({ session, token }) {
-
         session.user.id = token.id;
-        session.user.address = "123 Fake St.";
+        session.user.billing_id = token.billing_id;
+        session.user.artist_list = token.artist_list;
+        session.user.track_list = token.track_list;
         session.isNewUser = token.isNewUser;
 
         return session

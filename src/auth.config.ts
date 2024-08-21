@@ -41,7 +41,7 @@ export default {
         if (!user) {
           // No user found, so this is their first attempt to login
           // meaning this is also the place you could do registration
-          throw new Error("User not found.")
+          return null
         }
  
         // return user object with their profile data

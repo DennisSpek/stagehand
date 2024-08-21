@@ -1,6 +1,6 @@
 import { User } from 'next-auth';
 
-const url = `${process.env.NEXT_PUBLIC_STAGEHAND_USER_SERVICE_HOST +':'+process.env.NEXT_PUBLIC_STAGEHAND_USER_SERVICE_PORT}`
+const url = process.env.NEXT_PUBLIC_STAGEHAND_USER_SERVICE_URL
 
 export const getUser = async (email: string, password: string) => {
   // Logic to get user from database
@@ -13,8 +13,6 @@ export const getUser = async (email: string, password: string) => {
   });
 
   const user: User | null = await response.json();
-
-  console.log("user", user);
 
   if (user) return user;
 
