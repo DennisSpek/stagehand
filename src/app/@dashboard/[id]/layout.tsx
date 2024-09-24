@@ -1,12 +1,16 @@
+'use client'
+
+import { useSession } from 'next-auth/react'
 import { SideNavigation } from '@/ui/sideNavigation';
 import { ArtistSelector } from '@/components/artistSelector';
-import { WelcomeMessage } from '@/components/welcomeMessage';
+import { WelcomeMessage } from '@/components/DashboardMessages';
 
 export default function ArtistLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { data: session, status } = useSession();
 
   return (
     <div className='h-full flex flex-col'>
@@ -18,7 +22,7 @@ export default function ArtistLayout({
           </div>
         </div>
         <div className='flex flex-1 flex-col gap-4'>
-          <WelcomeMessage />
+          <WelcomeMessage title='Welcome back, UserName. 👋 Take a look at your stats!' sub='Last refresh: 00:00 mm-dd-yyyy CET (23h ago)' />
           {children}
         </div>
       </main>

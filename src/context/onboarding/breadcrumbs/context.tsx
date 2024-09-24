@@ -8,7 +8,7 @@ interface onboardingContextType {
 // Create the UserContext with the initial values.
 export const onboardingContext = createContext<onboardingContextType>({
   step: 1,
-  setStep: (step: number) => {}
+  setStep: () => {}
 });
 
 export const useOnboarding = () => useContext(onboardingContext);

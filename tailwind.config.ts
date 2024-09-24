@@ -22,8 +22,11 @@ const config: Config = {
       },
       borderRadius: {
         '2xl': '50px',
+        'xl': '24px',
         'normal': '16px',
         'sm': '8px',
+        'tiny': '4px',
+        'tiny/2': '2px',
       },
       fontSize: {
         '2xl': '3rem',

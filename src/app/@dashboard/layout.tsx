@@ -1,4 +1,8 @@
+
 import { auth } from "@/auth"
+import { OnboardingProvider } from '@/context/onboarding/provider';
+import { AnimatePresence, motion } from 'framer-motion';
+
 import { Header } from '@/components/header';
 import React from 'react';
 
@@ -11,15 +15,18 @@ export default async function DashboardLayout({
 }>) {
   const session = await auth();
 
-  return (
-    <div className='h-full'>
-      <Header/>
-      <div className='flex-1'>
-        <div className='p-8 h-full '>
-          {!session.user?.billing_id ? onboarding : children}
+  if (!session?.user?.billing_id) {
+    return onboarding
+  } else {
+    return (
+      <div className='h-full flex flex-col'>
+        <Header/>
+        <div className='flex-1'>
+          <div className='p-8 h-full '>
+            {children}
+          </div>
         </div>
       </div>
-    </div>
-    
-  );
+    );
+  }
 }

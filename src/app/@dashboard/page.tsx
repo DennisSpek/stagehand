@@ -1,5 +1,5 @@
 import { ElementContainer } from '@/ui/elementContainer';
-import { WelcomeMessage } from '@/components/welcomeMessage';
+import { WelcomeMessage } from '@/components/DashboardMessages';
 import { SessionProvider } from 'next-auth/react'
 import { auth } from "@/auth"
 
