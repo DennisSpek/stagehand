@@ -1,22 +1,31 @@
 import React, { createContext, useState, ReactNode, useContext } from 'react';
 import { UserSelectionState, PaymentDetails } from '@/types/onboardingSelection';
 import { UserSelectionContext } from '@/context/onboarding/userSelection/context';
-import { Plan } from '@/types/PackagePlan';
+import { Plan } from '@/types/lemonSqueezy/PackagePlan';
+import { Variant } from '@/types/lemonSqueezy/PackageVariant';
 
 export const UserSelectionProvider = ({ children }: { children: ReactNode }) => {
   const [userSelection, setUserSelection] = useState<UserSelectionState>({
     selectedPlan: null,
+    selectedVariant: null,
     paymentDetails: null,
     selectedArtists: [],
     selectedTracks: [],
   });
 
   const setSelectedPlan = (plan: Plan) => {
-    setUserSelection(prevState => ({ ...prevState, selectedPlan: plan }));
+    setUserSelection(prevState => ({ ...prevState, selectedPlan: plan, selectedVariant: null }));
   };
 
-  const setPaymentDetails = (details: PaymentDetails) => {
-    setUserSelection(prevState => ({ ...prevState, paymentDetails: details }));
+  const setVariant = (variant: Variant) => {
+    setUserSelection(prevState => ({ ...prevState, selectedVariant: variant }));
+  };
+
+  const setPaymentDetails = (details: Partial<PaymentDetails>) => {
+    setUserSelection(prevState => ({
+      ...prevState,
+      paymentDetails: { ...prevState.paymentDetails, ...details },
+    }));
   };
 
   const setSelectedArtists = (artists: {artistId: string, image: string, name: string, trackPreference: string}[]) => {
@@ -44,7 +53,7 @@ export const UserSelectionProvider = ({ children }: { children: ReactNode }) => 
   };
 
   return (
-    <UserSelectionContext.Provider value={{ userSelection, setSelectedPlan, setPaymentDetails, setSelectedArtists, setSelectedTracks, setTrackPreference, removeArtistByIndex }}>
+    <UserSelectionContext.Provider value={{ userSelection, setSelectedPlan, setPaymentDetails, setSelectedArtists, setSelectedTracks, setTrackPreference, removeArtistByIndex, setVariant }}>
       {children}
     </UserSelectionContext.Provider>
   );

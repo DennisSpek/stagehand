@@ -1,4 +1,4 @@
-import { GenerateToken } from '@/lib/spotify/generateToken';
+import { GenerateToken } from '@/services/spotify/generateToken';
 
 export const searchArtist = async (query: string) => {
   try {

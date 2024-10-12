@@ -1,6 +1,9 @@
+import { useEffect, useState } from 'react';
+
 import { PackageCard } from '@/ui/packageCard';
+import { PackageCardSkeleton } from '@/ui/packageCard/skeleton';
 import { PackageCardSmall } from '@/ui/packageCardSmall';
-import { Plan } from '@/types/PackagePlan';
+import { Plan } from '@/types/lemonSqueezy/PackagePlan';
 
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -10,65 +13,28 @@ import { HorizontalSeperator } from '@/ui/horizontalSeperator';
 
 import { PaymentDetailsForm } from '@/components/paymentDetailsForm';
 import { PaymentSummary } from '@/components/paymentSummary';
-const packageArray: Plan[] = [
-  {
-    name: 'Artist Plan',
-    price: {
-      monthly: 12,
-      yearly: 120
-    },
-    artists: 1,
-    tracks: 20,
-    features: [
-      'Connect 1 artist',
-      'Track 20 songs',
-      'Weekly notifications',
-    ],
-    description: 'Great for independent artists or users who want to track only one artist.',
-    trial: true,
-  },
-  {
-    name: 'Small Teams',
-    price: {
-      monthly: 80,
-      yearly: 900
-    },
-    artists: 10,
-    tracks: 200,
-    features: [
-      'Connect 10 artists',
-      'track 200 songs',
-      'Weekly notifications',
-      'Audience reports',
-    ],
-    description: 'Great for independent artists or users who want to track only one artist.',
-    trial: false,
-  },
-  {
-    name: 'Bigger Teams',
-    price: {
-      monthly: 130,
-      yearly: 1500
-    },
-    artists: 50,
-    tracks: 1000,
-    features: [
-      'Connect 50 artists',
-      'Track 1000 songs',
-      'Daily notifications',
-      'Audience reports',
-      'Multi-user access',
-    ],
-    description: 'Great for independent artists or users who want to track only one artist.',
-    trial: false,
-  }
-]
+
+import { getProducts } from '@/services/lemonSqueezy';
 
 export const PackageSelection = ({ small = false } : { small: boolean }) => {
   const { step, setStep } = useOnboarding();
   const { setSelectedPlan, userSelection: { selectedPlan } } = useUserSelection();
-  
+  const [products, setProducts] = useState<Plan[] | []>([]);
+
+  useEffect(() => {
+
+    //fetching products
+    async function fetchProducts() {
+      const data = await getProducts()
+      
+      setProducts(data)
+    }
+
+    fetchProducts()
+  }, [])
+
   const handleClick = (plan) => {
+    console.log("plan", plan);
     setSelectedPlan(plan);
   };
 
@@ -77,8 +43,6 @@ export const PackageSelection = ({ small = false } : { small: boolean }) => {
     visible: { opacity: 1, scale: 1 },
     exit: { opacity: 0, scale: 0.8 }
   };
-
-  console.log("selectedPlan", selectedPlan);
 
   return (
     <div className='flex justify-center'>
@@ -93,9 +57,17 @@ export const PackageSelection = ({ small = false } : { small: boolean }) => {
             className='flex flex-col gap-4 justify-center'
           >
             <div className='flex gap-4'>
+              
               {
-                packageArray.map((plan, index) => (
-                  <PackageCard key={index} {...plan} callback={handleClick} selectedPlan={selectedPlan} />
+                products.length === 0 ? 
+                  <>
+                    <PackageCardSkeleton trial={true} />
+                    <PackageCardSkeleton trial={false} />
+                    <PackageCardSkeleton trial={false} />
+                  </> 
+                :
+                products?.map((plan: Plan, index: number) => (
+                  <PackageCard key={index} plan={plan} callback={handleClick} selectedPlan={selectedPlan?.plan} />
                 ))
               }
             </div>
@@ -115,8 +87,8 @@ export const PackageSelection = ({ small = false } : { small: boolean }) => {
           >
             <div className='flex gap-4'>
               {
-                packageArray.map((plan, index) => (
-                  <PackageCardSmall key={index} {...plan} callback={handleClick} selectedPlan={selectedPlan} />
+                products?.map((plan: Plan, index: number) => (
+                  <PackageCardSmall key={index} plan={plan} callback={handleClick} selectedPlan={selectedPlan} />
                 ))
               }
             </div>

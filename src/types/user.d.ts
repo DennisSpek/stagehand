@@ -1,4 +1,6 @@
-type UserType = {
+import { ArtistList } from './artistList';
+
+export type UserType = {
   id: string;
   name: string;
   last_name?: string;
@@ -9,8 +11,7 @@ type UserType = {
   display_name?: string;
   phone?: string;
   date_of_birth?: Date;
-  track_list?: TrackList;
-  artist_list?: ArtistList;
+  artistList?: ArtistList;
   sessions: Session[];
   accounts: Account[];
   billing_id?: string;

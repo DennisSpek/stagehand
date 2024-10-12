@@ -30,7 +30,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth(() => {
         if (trigger === "update" && session?.user) {
           // Note, that `session` can be any arbitrary object, remember to validate it!
           token.user = session.user
-          token.billing_id = session.user.billing_id
+          token = { token, ...session.user}
         }
 
         if (user) { // User is available during sign-in
@@ -44,9 +44,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth(() => {
           token.track_list = userObject.track_list
           token.isNewUser = isNewUser
         }
-
-        console.log("JWT", token)
-
+        
         return token
       },
       session({ session, token }) {

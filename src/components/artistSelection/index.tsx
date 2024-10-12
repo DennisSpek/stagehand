@@ -4,7 +4,7 @@ import cslx from 'clsx';
 import { useState, useEffect } from 'react';
 import { SearchBar } from '@/ui/searchBar';
 import { HorizontalSeperator } from '@/ui/horizontalSeperator';
-import { searchArtist } from '@/lib/spotify/searchArtist';
+import { searchArtist } from '@/services/spotify/searchArtist';
 import { CheckboxNormal } from '@/ui/checkboxes';
 import { SearchResultModal } from '@/ui/searchResultModal';
 import { BlueRoundedButton } from '@/ui/buttons/blueRoundedButton';
