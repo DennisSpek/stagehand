@@ -4,4 +4,5 @@ export interface Variant{
   description: string;
   price: string;
   interval: string;
+  url: string;
 }

@@ -1,6 +1,6 @@
 import { NavigationFooterItem } from '@/ui/navigationFooterItem'
 
-const NavFooterItems: [] = [
+const NavFooterItems: { icon: string; title: string; link: string }[] = [
   {
     icon: '',
     title: 'Discovery Hub',

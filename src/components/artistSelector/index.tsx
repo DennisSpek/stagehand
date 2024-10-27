@@ -21,7 +21,7 @@ export const ArtistSelector = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname()
   const [selectedArtist, setSelectedArtist] = useState<Artist | null>(null);
-  const items = session?.user?.artist_list?.artists
+  const items = session?.user?.artistList?.artists
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -31,9 +31,12 @@ export const ArtistSelector = () => {
     const firstPathPart = getFirstPathPart(pathname);
 
     const artist = items?.find((artist) => artist.artistId === firstPathPart);
+
+    if(artist){
+      setSelectedArtist(artist)
+    }
     
-    setSelectedArtist(artist)
-  }, [session?.user])
+  }, [pathname, items])
 
   if (status === 'loading' && !selectedArtist) return <ArtistSelectorSkeleton />
   

@@ -1,8 +1,8 @@
 import Image from 'next/image';
 
 interface ISearchResultModal {
-  searchResults: unknown[];
-  onItemSelect?: (item: { artistId: string, image: string, name: string }) => void;
+  searchResults: any[];
+  onItemSelect: (item: { artistId: string, image: string, name: string }) => void;
 }
 
 export const SearchResultModal = ({ searchResults, onItemSelect } : ISearchResultModal) => {
@@ -17,7 +17,7 @@ export const SearchResultModal = ({ searchResults, onItemSelect } : ISearchResul
   )
 }
 
-const SearchResultItem = ({ result }) => {
+const SearchResultItem = ({ result }: { result: { name: string, images: { url: string}[]}}) => {
   return (
     <div className='flex items-center gap-2 p-2 hover:bg-gray transition duration-300 cursor-pointer'>
       <div className='w-8 h-8 rounded-full relative'>

@@ -6,6 +6,7 @@ import { credentialsSchema } from '@/lib/zod'
 import { withZodSchema } from 'formik-validator-zod'
 
 interface Values {
+  [key: string]: string;
   email: string;
   password: string;
 }
@@ -45,7 +46,7 @@ export const CredentialsLogin = ({ callback }: { callback: () => void}) => {
           </Form>
         )}
       </Formik>
-      <p className='mt-8 text-sm text-center' onClick={callback}>Don't have an account yet? <span className='underline cursor-pointer'>Sign up!</span></p>
+      <p className='mt-8 text-sm text-center' onClick={callback}>Don&#39;t have an account yet? <span className='underline cursor-pointer'>Sign up!</span></p>
     </div>
   )
 }

@@ -15,23 +15,22 @@ import { FaLock } from 'react-icons/fa';
 export const ArtistSelection = () => {
   const { userSelection: { selectedArtists }, setSelectedArtists } = useUserSelection();
   const { setStep } = useOnboarding();
-  const [searchResults, setSearchResults] = useState<Unknown[]>([]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
   const [activeArtist, setActiveArtist] = useState<{ artistId: string, preference: string } | null>(null);
 
   useEffect(() => {
     setSearchResults([]);
-    console.log("selectedArtists", selectedArtists);
   }, [selectedArtists]);
 
   async function handleSearch(value: string) {
-    let results: Unknown[] = await searchArtist(value);
+    let results: any[] = await searchArtist(value);
     if (!results) {
       results = [];
     }
     setSearchResults(results);
   }
 
-  async function handleSelectItem({ artistId, image, name }: { artistId: string, image: string, name: string }) {
+  function handleSelectItem({ artistId, image, name }: { artistId: string, image: string, name: string }) {
     setSelectedArtists([...selectedArtists, { artistId, image, name, trackPreference: 'top' }]);
   }
 
@@ -77,7 +76,7 @@ const SelectedItemsDisplay = ({ setActiveArtist, activeArtist }: SelectedItemsDi
     <div className='flex flex-wrap w-full gap-3'>
       {Array.from({ length: maxItems }).map((_, index) => {
         const artist = selectedArtists[index];
-        if (index < selectedPlan.artists) {
+        if (selectedPlan && index < selectedPlan?.artists) {
           if (artist) {
             return (
               <div key={index} onClick={() => handleArtistClick({ artistId: artist.artistId, preference: artist.trackPreference })}>
@@ -152,7 +151,7 @@ const LockedItem = () => {
   );
 };
 
-const OpenItem = ({ number }) => {
+const OpenItem = ({ number } : { number: number }) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -170,10 +169,10 @@ interface ArtistItemProps {
   active: boolean;
   artistName: string;
   image: string;
-  onRemove: () => void;
+  onRemove: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const ArtistItem = ({ active, artistName, image, onRemove }: ArtistItemProps) => {
+export const ArtistItem = ({ active, artistName, image, onRemove }: ArtistItemProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -198,7 +197,7 @@ const ArtistItem = ({ active, artistName, image, onRemove }: ArtistItemProps) =>
       >
         <Image src={image} alt='Picture of Artist' fill={true} className='rounded-full' />
         <AnimatePresence>
-          {isHovered && (
+          {isHovered && onRemove && (
             <motion.button
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}

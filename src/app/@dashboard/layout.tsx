@@ -1,6 +1,5 @@
 
 import { auth } from "@/auth"
-import { OnboardingProvider } from '@/context/onboarding/provider';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import { Header } from '@/components/header';
@@ -15,7 +14,9 @@ export default async function DashboardLayout({
 }>) {
   const session = await auth();
 
-  if (!session?.user?.billing_id) {
+  //&& !session?.user?.artistList
+
+  if (!session?.user?.billing) {
     return onboarding
   } else {
     return (

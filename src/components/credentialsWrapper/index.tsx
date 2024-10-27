@@ -1,15 +1,20 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CredentialsLogin } from '@/components/credentialsLogin';
 import { CredentialsRegister } from '@/components/credentialsRegister';
 
 export const CredentialsWrapper = () => {
   const [activeForm, setActiveForm] = useState('login');
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  useEffect(() => {
+    setIsInitialLoad(false);
+  }, []);
 
   const variants = {
-    initial: (direction) => ({
+    initial: (direction: number) => ({
       x: direction > 0 ? 1000 : -1000,
       opacity: 0,
     }),
@@ -18,7 +23,7 @@ export const CredentialsWrapper = () => {
       opacity: 1,
       transition: { type: 'spring', stiffness: 300, damping: 30 },
     },
-    exit: (direction) => ({
+    exit: (direction: number) => ({
       x: direction < 0 ? 1000 : -1000,
       opacity: 0,
       transition: { duration: 0.3 },
@@ -33,7 +38,7 @@ export const CredentialsWrapper = () => {
             key="login"
             custom={1}
             variants={variants}
-            initial="initial"
+            initial={isInitialLoad ? false : "initial"}
             animate="animate"
             exit="exit"
           >

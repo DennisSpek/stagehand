@@ -7,7 +7,7 @@ let access_token: string | null = null;
 let expiry_time: Date | null = null;
 
 export const GenerateToken = async () => {
-  const isExpired = isDateInThePast(expiry_time);
+  const isExpired = expiry_time && isDateInThePast(expiry_time)
 
   try{
     if(!access_token || isExpired){

@@ -4,7 +4,7 @@ import { NavigationItem } from '@/ui/navigationItem'
 
 export const NavigationGroup = () => {
 
-  const navItems: [] = [
+  const navItems: {icon: React.ReactNode, title: string, link: string}[] = [
   {
     icon: <BiSolidDashboard />,
     title: 'Dashboard',

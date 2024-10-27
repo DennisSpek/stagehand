@@ -1,4 +1,4 @@
-import { Plan } from '@/types/lemonSqueezy/PackagePlan';
+import { Plan } from '@/types/lemonSqueezy/packagePlan';
 import { CheckMark } from '@/icons/checkmark'
 import { HorizontalSeperator } from '@/ui/horizontalSeperator'
 

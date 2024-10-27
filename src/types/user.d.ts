@@ -1,4 +1,5 @@
 import { ArtistList } from './artistList';
+import { BillingProfile } from './billing';
 
 export type UserType = {
   id: string;
@@ -11,10 +12,10 @@ export type UserType = {
   display_name?: string;
   phone?: string;
   date_of_birth?: Date;
-  artistList?: ArtistList;
+  artistList?: ArtistList | null;
   sessions: Session[];
   accounts: Account[];
-  billing_id?: string;
+  billing?: BillingProfile | null;
   notification_preferences?: NotificationPreferences;
   consents?: Consent;
   created: Date;

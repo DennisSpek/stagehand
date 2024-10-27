@@ -1,13 +1,15 @@
+import { Variant } from './packageVariant';
 export interface Plan {
-  id: number;
+  id: string;
   name: string;
   price: {
-    monthly: number;
-    yearly: number;
+    monthly: string;
+    yearly: string;
   };
   artists: number;
   tracks: number;
   features: string[];
   description: string;
   trial: boolean;
+  variants: Variant[];
 }

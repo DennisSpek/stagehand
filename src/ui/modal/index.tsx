@@ -6,7 +6,7 @@ export function Modal({
   isVisible,
 }: {
   children: React.ReactNode,
-  isVisible: boolean,
+  isVisible?: boolean,
 }) {
   return (
     <AnimatePresence>

@@ -1,18 +1,11 @@
 import { DefaultSession } from "next-auth";
-
-export type ExtendedUser = DefaultSession["user"] & {
-  id: string;
-  username: string;
-  artist_list: unknown[] || null;
-  track_list: unknown[] || null;
-  billing_id: string || null;
-
-// add more fields here...
-};
+import { ArtistList } from './artistList';
+import { BillingProfile } from './billing';
+import { UserType } from './user';
 
 declare module "next-auth" {
   interface Session {
     isNewUser: boolean;
-    user: ExtendedUser;
+    user: UserType & DefaultSession["user"];
   }
 }

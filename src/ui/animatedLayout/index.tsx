@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
 
-export const AnimatedLayout = ({children, className}: {children: React.ReactNode, className: string}) => {
+export const AnimatedLayout = ({children, className}: {children: React.ReactNode, className?: string}) => {
   
   const pageVariants = {
     initial: { opacity: 0 },

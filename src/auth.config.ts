@@ -3,16 +3,15 @@ import Spotify from "next-auth/providers/spotify"
 import type { NextAuthConfig } from "next-auth"
 import { saltAndHashPassword } from "@/utils/password"
 import { saveUser, getUser } from "@/services/userManagement"
+import { UserType } from "@/types/user"
 
-export async function registerUser(email: string, password: string, name: string): Promise<User | null> {
+export async function registerUser(email: string, password: string, name: string): Promise<UserType | null> {
 
   // Hashing password
   const pwHash = await saltAndHashPassword(password);
 
-  console.log("pwHash", pwHash);
-
   // Add User or return null
-  const result = await saveUser(email, pwHash, name);
+  const result: UserType | null = await saveUser(email, pwHash, name);
 
   if (result) return result;
 
@@ -30,17 +29,15 @@ export default {
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
-        let user: User = null;
+        let user: UserType | null = null;
  
         // logic to salt and hash password
-        const pwHash = await saltAndHashPassword(credentials.password);
+        const pwHash = await saltAndHashPassword(credentials.password as string);
  
         // logic to verify if the user exists
-        user = await getUser(credentials.email, pwHash)
-        
+        user = await getUser(credentials.email as string, pwHash)
+
         if (!user) {
-          // No user found, so this is their first attempt to login
-          // meaning this is also the place you could do registration
           return null
         }
  

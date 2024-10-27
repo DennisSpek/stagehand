@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { ImageContainer } from '@/ui/imagePlaceholder'
-export const UserAvatar = ({ avatar }:{ avatar: string }) => {
+
+export const UserAvatar = ({ avatar }:{ avatar: string | null }) => {
   return (
     <div>
       { avatar ? (

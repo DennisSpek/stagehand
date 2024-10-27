@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { PackageCard } from '@/ui/packageCard';
 import { PackageCardSkeleton } from '@/ui/packageCard/skeleton';
 import { PackageCardSmall } from '@/ui/packageCardSmall';
-import { Plan } from '@/types/lemonSqueezy/PackagePlan';
+import { BlueRoundedButton } from '@/ui/buttons/blueRoundedButton';
 
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -14,27 +14,41 @@ import { HorizontalSeperator } from '@/ui/horizontalSeperator';
 import { PaymentDetailsForm } from '@/components/paymentDetailsForm';
 import { PaymentSummary } from '@/components/paymentSummary';
 
-import { getProducts } from '@/services/lemonSqueezy';
+import { getProducts } from '@/actions/lemonsqueezy';
 
-export const PackageSelection = ({ small = false } : { small: boolean }) => {
+import { Variant } from '@/types/lemonSqueezy/packageVariant';
+import { Plan } from '@/types/lemonSqueezy/packagePlan';
+import { LockedOverlay } from '@/ui/lockedOverlay';
+
+export const PackageSelection = ({ small = false } : { small?: boolean }) => {
   const { step, setStep } = useOnboarding();
-  const { setSelectedPlan, userSelection: { selectedPlan } } = useUserSelection();
+  const { setSelectedPlan, setVariant, userSelection: { selectedPlan, selectedVariant } } = useUserSelection();
   const [products, setProducts] = useState<Plan[] | []>([]);
 
+  
   useEffect(() => {
 
     //fetching products
     async function fetchProducts() {
-      const data = await getProducts()
-      
-      setProducts(data)
+      const products: Plan[] = await getProducts()
+
+      console.log("products", products);
+
+      setProducts(products)
     }
 
     fetchProducts()
   }, [])
 
-  const handleClick = (plan) => {
-    console.log("plan", plan);
+  const handleClick = (plan: Plan) => {
+    const defaultVariant = plan.variants?.find((variant) => variant.name === "Default")
+    const variant: Variant | null = plan.variants.find((variant) => variant?.interval === defaultVariant?.interval) ?? null
+    
+    if(!variant) {
+      throw new Error(`Default variant not found for plan: ${plan.name}`);
+    }
+
+    setVariant(variant);
     setSelectedPlan(plan);
   };
 
@@ -45,7 +59,7 @@ export const PackageSelection = ({ small = false } : { small: boolean }) => {
   };
 
   return (
-    <div className='flex justify-center'>
+    <div className='mt-8'>
       <AnimatePresence mode='wait'>
         {small === false ? (
           <motion.div
@@ -54,10 +68,9 @@ export const PackageSelection = ({ small = false } : { small: boolean }) => {
             animate="visible"
             exit="exit"
             variants={cardVariants}
-            className='flex flex-col gap-4 justify-center'
+            className='flex justify-center items-center flex-col'
           >
             <div className='flex gap-4'>
-              
               {
                 products.length === 0 ? 
                   <>
@@ -67,12 +80,12 @@ export const PackageSelection = ({ small = false } : { small: boolean }) => {
                   </> 
                 :
                 products?.map((plan: Plan, index: number) => (
-                  <PackageCard key={index} plan={plan} callback={handleClick} selectedPlan={selectedPlan?.plan} />
+                  <PackageCard key={index} plan={plan} callback={handleClick} />
                 ))
               }
             </div>
             <div className='flex flex-col items-center'>
-              <span>Dont't know where to start? Claim your <b>free trial.</b></span>
+              <span>Dont&#39;t know where to start? Claim your <b>free trial.</b></span>
               <span>See all features</span>
             </div>
           </motion.div>
@@ -83,7 +96,7 @@ export const PackageSelection = ({ small = false } : { small: boolean }) => {
             animate="visible"
             exit="exit"
             variants={cardVariants}
-            className='flex flex-col max-w-[888px] justify-center'
+            className='flex justify-center items-center flex-col'
           >
             <div className='flex gap-4'>
               {
@@ -93,11 +106,16 @@ export const PackageSelection = ({ small = false } : { small: boolean }) => {
               }
             </div>
             <HorizontalSeperator className='my-5' />
-            <div className='flex justify-between'>
-              <PaymentDetailsForm trial={selectedPlan?.trial}/>
+            <div className='flex justify-between w-full relative'>
+              <LockedOverlay isVisible={selectedPlan?.trial ?? false}/>
+              <PaymentDetailsForm />
               <PaymentSummary plan={selectedPlan}/>
             </div>
-            <button onClick={() => setStep(2)}>Next step</button>
+            <div className='mt-8 self-auto'>
+              <BlueRoundedButton onClick={() => setStep(2)} disabled={!selectedVariant}>
+                <span>Next step</span>
+              </BlueRoundedButton>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

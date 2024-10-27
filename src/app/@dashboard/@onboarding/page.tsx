@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import Link from 'next/link';
 
 import { OnboardingMessage } from '@/components/DashboardMessages';
@@ -12,22 +12,18 @@ import { PackageSelection } from '@/components/packageSelection'
 import { ArtistSelection } from '@/components/artistSelection';
 import { OnboardingSpotifyGuide } from '@/components/onboardingSpotifyGuide';
 import { OnboardingProcessing } from '@/components/onboardingProcessing';
-
+import { BlueRoundedButton } from '@/ui/buttons/blueRoundedButton';
 import { DashboardMessageSkeleton } from '@/components/DashboardMessages/skeleton';
 
 export default function Page() {
   const { step, setStep } = useOnboarding();
   const [ finished, setFinished ] = useState<boolean>(false);
-  const { userSelection: { selectedPlan } } = useUserSelection();
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const { userSelection: { selectedPlan, selectedVariant, selectedArtists } } = useUserSelection();
 
   return (
     <AnimatedLayout>
-      <div>
-        <AnimatePresence mode='wait'>
-          {finished && (
-            <OnboardingProcessing />
-          )}
-        </AnimatePresence>
+      <div className='max-w-[888px] mx-auto'>
         <AnimatePresence mode='wait'>
           {step === 1 && (
             <motion.div
@@ -36,14 +32,10 @@ export default function Page() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 100 }}
               transition={{ duration: 0.3 }}
+              className='w-full flex flex-col items-center'
             >
-              <Suspense fallback={<DashboardMessageSkeleton />}>
-                <OnboardingMessage title='Good to see you here, UserName' sub='Pick a plan that fits your needs' />
-              </Suspense>
-
-              <div className='mt-8'>
-                {selectedPlan === null ? <PackageSelection /> : <PackageSelection small='true' />}
-              </div>
+              <OnboardingMessage title='Good to see you here, UserName!' sub='Pick a plan that fits your needs 🙂' />
+              {selectedPlan === null ? <PackageSelection /> : <PackageSelection small={true} />}
             </motion.div>
           )}
           {step === 2 && (
@@ -68,11 +60,25 @@ export default function Page() {
               transition={{ duration: 0.3 }}
               className='w-full flex flex-col items-center'
             >
-              <OnboardingMessage title="Connect your account to Spotify for Artists" sub='Following these steps allows us to gather your data and present your premium analytics' />
+              <OnboardingMessage title="Finally, let's connect your S4A!" sub="In just a few steps, you'll be ready to use Stagehand." />
               <OnboardingSpotifyGuide />
-              <span onClick={() => setFinished(true)}>Finish</span>
+              <div className='mt-8 self-auto'>
+                {/* <BlueRoundedButton onClick={() => setStep(4)} disabled={!selectedVariant || !selectedPlan || selectedArtists.length === 0}>
+                  <span>{selectedPlan?.trial ? ('Finish') : ('Finish & Pay')}</span>
+                </BlueRoundedButton> */}
+                <AnimatePresence mode='wait'>
+                  {!finished ? (
+                    <BlueRoundedButton onClick={() => setFinished(true)}>
+                      <span>{selectedPlan?.trial ? 'Finish' : 'Finish & Pay'}</span>
+                    </BlueRoundedButton>
+                  ) : (
+                    <OnboardingProcessing  reset={() => setFinished(false)}/>
+                  )}
+                </AnimatePresence>
+              </div>
             </motion.div>
           )}
+
         </AnimatePresence>
       </div>
     </AnimatedLayout>

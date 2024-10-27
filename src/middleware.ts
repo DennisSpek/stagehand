@@ -1,13 +1,14 @@
+import { NextRequest } from "next/server"
 import authConfig from "./auth.config"
 import NextAuth from "next-auth"
 
 const { auth } = NextAuth(authConfig)
-export default auth(async function middleware(req: NextRequest) {
+export default auth(async function middleware(req) {
   // Middleware to redirect unauthenticated users to the login page/default '/' page
-    if (!req.auth && req.nextUrl.pathname !== "/") {
-      const newUrl = new URL("/", req.nextUrl.origin)
-      return Response.redirect(newUrl)
-    }
+  if (!req.auth && req.nextUrl.pathname !== "/") {
+    const newUrl = new URL("/", req.nextUrl.origin)
+    return Response.redirect(newUrl)
+  }
 })
 
 export const config = {

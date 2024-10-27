@@ -1,4 +1,4 @@
-import NextAuth, from "next-auth"
+import NextAuth from "next-auth"
 import { redirect } from 'next/navigation'
 import PostgresAdapter from "@auth/pg-adapter"
 import { Pool } from "pg"
@@ -22,39 +22,36 @@ export const { handlers, signIn, signOut, auth } = NextAuth(() => {
     session: { strategy: "jwt" },
     ...authConfig,
     callbacks: {
+      authorized: async ({ auth }) => {
+        // Logged in users are authenticated, otherwise redirect to login page
+        return !!auth
+      },
       signIn: () => {
         return true;
       },
-      async jwt({token, user, account, profile, isNewUser, trigger, session}, props) { 
+      async jwt({token, user, account, profile, isNewUser, trigger, session}) { 
+        
         // When calling the update function, JWT token gets updated with values from the session
         if (trigger === "update" && session?.user) {
           // Note, that `session` can be any arbitrary object, remember to validate it!
-          token.user = session.user
+          console.log("updating token", session.user);
           token = { token, ...session.user}
+          console.log("updated token", token);
         }
 
         if (user) { // User is available during sign-in
-          const response: User = await fetch(url + '/user/'+ user?.id);
-
-          const userObject: User = await response.json();
-
-          token.id = userObject.id
-          token.billing_id = userObject.billing_id
-          token.artist_list = userObject.artist_list
-          token.track_list = userObject.track_list
-          token.isNewUser = isNewUser
+          token = { ...user, token }
         }
         
         return token
       },
       session({ session, token }) {
-        session.user.id = token.id;
-        session.user.billing_id = token.billing_id;
-        session.user.artist_list = token.artist_list;
-        session.user.track_list = token.track_list;
-        session.isNewUser = token.isNewUser;
-
-        return session
+        //Update session with values from the token
+        return { 
+          ...session, 
+          user: { ...token }, 
+          isNewUser: token.isNewUser 
+        }
       },
     },
   }
