@@ -6,56 +6,51 @@ import { Variant } from '@/types/lemonSqueezy/packageVariant';
 
 import { BillingDetails } from '@/types/billing';
 
-// selectedPlan: {
-//       artists: 50,
-//       description: "For companies with a diverse group of artists seeking a reliable view of their performance.",
-//       features: [
-//         "Connect 50 artists",
-//         "Track 1000 songs",
-//         "Daily notifications",
-//         "Audience reports",
-//         "Multi-user access"
-//       ],
-//       id: "368317",
-//       name: "Bigger Teams",
-//       price: {
-//         monthly: "€130",
-//         yearly: "€1,248"
-//       },
-//       tracks: 1000,
-//       trial: false,
-//       variants:[]
-//     },
-//     selectedVariant: {
-//       description: "<p>For companies with a diverse group of artists seeking a reliable view their performance.</p>",
-//       id: "549867",
-//       interval: "month",
-//       name: "Monthly",
-//       price: '13000',
-//       url: "https://stagehand.lemonsqueezy.com/checkout/buy/a5985969-b127-4cfc-8903-ca989f7a893d"
-//     },
-//     paymentDetails: {
-//       address: "Marinestraat 1",
-//       address_city: "Rotterdam",
-//       address_country: "NL",
-//       address_zip: "3071PB",
-//       full_name: "Dennis Spek"
-//     },
-//     selectedArtists: [
-//       {
-//         artistId: "6kD58SAifDeYcddV0wgB2Q",
-//         image: "https://i.scdn.co/image/ab6761610000e5eb21146bfd9fe4db401b0147a3",
-//         name: "Space Bear",
-//         trackPreference: "top"
-//       }
-//     ],
-
 export const UserSelectionProvider = ({ children }: { children: ReactNode }) => {
   const [userSelection, setUserSelection] = useState<UserSelectionState>({
-    selectedPlan: null,
-    selectedVariant: null,
-    paymentDetails: null,
-    selectedArtists: [],
+    selectedPlan: {
+      artists: 50,
+      description: "For companies with a diverse group of artists seeking a reliable view of their performance.",
+      features: [
+        "Connect 50 artists",
+        "Track 1000 songs",
+        "Daily notifications",
+        "Audience reports",
+        "Multi-user access"
+      ],
+      id: "368317",
+      name: "Bigger Teams",
+      price: {
+        monthly: "€130",
+        yearly: "€1,248"
+      },
+      tracks: 1000,
+      trial: false,
+      variants:[]
+    },
+    selectedVariant: {
+      description: "<p>For companies with a diverse group of artists seeking a reliable view their performance.</p>",
+      id: "549867",
+      interval: "month",
+      name: "Monthly",
+      price: '13000',
+      url: "https://stagehand.lemonsqueezy.com/checkout/buy/a5985969-b127-4cfc-8903-ca989f7a893d"
+    },
+    paymentDetails: {
+      address: "Marinestraat 1",
+      address_city: "Rotterdam",
+      address_country: "NL",
+      address_zip: "3071PB",
+      full_name: "Dennis Spek"
+    },
+    selectedArtists: [
+      {
+        artistId: "6kD58SAifDeYcddV0wgB2Q",
+        image: "https://i.scdn.co/image/ab6761610000e5eb21146bfd9fe4db401b0147a3",
+        name: "Space Bear",
+        trackPreference: "top"
+      }
+    ],
     selectedTracks: [],
   });
 

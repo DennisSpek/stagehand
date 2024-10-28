@@ -11,15 +11,25 @@ import { useUserSelection } from '@/context/onboarding/userSelection/context'
 import { PackageSelection } from '@/components/packageSelection'
 import { ArtistSelection } from '@/components/artistSelection';
 import { OnboardingSpotifyGuide } from '@/components/onboardingSpotifyGuide';
-import { OnboardingProcessing } from '@/components/onboardingProcessing';
 import { BlueRoundedButton } from '@/ui/buttons/blueRoundedButton';
 import { DashboardMessageSkeleton } from '@/components/DashboardMessages/skeleton';
+
+//Finish onboarding
+// import { OnboardingProcessing } from '@/components/onboardingProcessing';
+import { getCheckoutURL } from '@/actions/lemonsqueezy';
+import { initiatePayment } from '@/services/lemonSqueezy';
 
 export default function Page() {
   const { step, setStep } = useOnboarding();
   const [ finished, setFinished ] = useState<boolean>(false);
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const { userSelection: { selectedPlan, selectedVariant, selectedArtists } } = useUserSelection();
+  const [ loading, setLoading ] = useState<boolean>(false);
+  const { userSelection: { selectedPlan, selectedVariant, selectedArtists, paymentDetails } } = useUserSelection();
+
+  useEffect(() => {
+    if (typeof window.createLemonSqueezy === 'function') {
+      window.createLemonSqueezy()
+    }
+  })
 
   return (
     <AnimatedLayout>
@@ -68,11 +78,42 @@ export default function Page() {
                 </BlueRoundedButton> */}
                 <AnimatePresence mode='wait'>
                   {!finished ? (
-                    <BlueRoundedButton onClick={() => setFinished(true)}>
+                    <BlueRoundedButton disabled={loading} onClick={async() => {
+                      // Create a checkout and open the Lemon.js modal
+                      let checkoutUrl: string | null = ''
+                      
+                      try {
+                        setLoading(true)
+                        checkoutUrl = await getCheckoutURL(
+                          Number(selectedVariant?.id),
+                          {
+                            name: paymentDetails?.full_name,
+                            billing_address: {
+                              country: paymentDetails?.address_country,
+                              zip: paymentDetails?.address_zip,
+                            },
+                          }
+                        );
+                      } catch (error) {
+                        setLoading(false);
+                        console.log("Error getting checkout URL", error)
+                      } finally {
+                        setLoading(false)
+                      }
+
+                      if (!checkoutUrl) {
+                        throw new Error('Failed to get checkout URL');
+                      }
+
+                      const result = !selectedPlan?.trial ? await initiatePayment(checkoutUrl) : { status: 'success', data: null };
+
+                      console.log("result", result);
+                    }}>
                       <span>{selectedPlan?.trial ? 'Finish' : 'Finish & Pay'}</span>
                     </BlueRoundedButton>
                   ) : (
-                    <OnboardingProcessing  reset={() => setFinished(false)}/>
+                    <p>Processing</p>
+                    // <OnboardingProcessing  reset={() => setFinished(false)}/>
                   )}
                 </AnimatePresence>
               </div>
