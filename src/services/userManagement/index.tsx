@@ -14,11 +14,11 @@ export const getUser = async (email: string, password: string) : Promise<UserTyp
     }
   });
 
-  const user: UserType | null = await response.json();
+  if(response.status === 404) return null
 
-  if (user) return user;
+  const user: UserType = await response.json();
 
-  return null
+  return user;
 }
 
 export const updateUser = async (user: UserType): Promise<UserType | null> => {
