@@ -45,8 +45,6 @@ export const createBillingProfile = async (selectedPlan: Plan, selectedVariant: 
 
     const data = await response.json();
 
-    console.log("data", data);
-
     return data;
   } catch (error) {
     console.error(error);

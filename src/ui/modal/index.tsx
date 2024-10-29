@@ -3,13 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export function Modal({
   children,
-  isVisible,
 }: {
   children: React.ReactNode,
-  isVisible?: boolean,
 }) {
   return (
-    <AnimatePresence>
+    <AnimatePresence mode='wait'>
       <motion.div
         className='absolute z-10 top-0 left-0 w-full h-full bg-darkGray/[.75] flex items-center justify-center'
         initial={{ opacity: 0 }}

@@ -5,6 +5,7 @@ export async function initiatePayment(checkoutUrl: string): Promise<{ status: st
     window.LemonSqueezy.Setup({
       eventHandler: (event: any) => {
         if (event.event === 'Checkout.Success') {
+          window.LemonSqueezy.Url.Close();
           resolve({ status: 'success', data: event.data.order.data });
         }
 

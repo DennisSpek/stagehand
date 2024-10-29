@@ -16,7 +16,7 @@ const pool = new Pool({
 
 const url = process.env.NEXT_PUBLIC_STAGEHAND_USER_SERVICE_URL
 
-export const { handlers, signIn, signOut, auth } = NextAuth(() => {
+export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth(() => {
   return {
     adapter: PostgresAdapter(pool),
     session: { strategy: "jwt" },
@@ -30,9 +30,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth(() => {
         return true;
       },
       async jwt({token, user, account, profile, isNewUser, trigger, session}) { 
-        
+        console.log("token", token);
+        console.log("user", user);
+        console.log("account", account);
+        console.log("profile", profile);
+        console.log("trigger", trigger);
+        console.log("session", session);
         // When calling the update function, JWT token gets updated with values from the session
-        if (trigger === "update" && session?.user) {
+        if (trigger === undefined && session?.user) {
           // Note, that `session` can be any arbitrary object, remember to validate it!
           console.log("updating token", session.user);
           token = { token, ...session.user}
