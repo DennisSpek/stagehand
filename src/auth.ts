@@ -30,10 +30,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth(() 
         return true;
       },
       async jwt({token, user, account, profile, isNewUser, trigger, session}) { 
-        console.log("token", token);
         console.log("user", user);
-        console.log("account", account);
-        console.log("profile", profile);
         console.log("trigger", trigger);
         console.log("session", session);
         // When calling the update function, JWT token gets updated with values from the session

@@ -29,6 +29,8 @@ export async function createArtistList(selectedArtists: any, available: number):
     available: available,
   }
 
+  console.log("artistList")
+
   return artistList;
 }
 
@@ -49,6 +51,8 @@ export async function updateListById(obj: ArtistList): Promise<ArtistList | null
       userId: session.user?.id,
       artistListData: obj,
     };
+
+    console.log("body", body);
 
     const response = await fetch(`${userServiceUrl}/artist_list/upsert`, {
       method: 'POST',

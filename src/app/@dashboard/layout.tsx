@@ -14,9 +14,7 @@ export default async function DashboardLayout({
 }>) {
   const session = await auth();
 
-  //&& !session?.user?.artistList
-
-  if (!session?.user?.billing) {
+  if (!session?.user?.billing && !session?.user?.artistList) {
     return onboarding
   } else {
     return (

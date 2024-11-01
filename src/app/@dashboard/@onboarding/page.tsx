@@ -115,7 +115,8 @@ export default function Page() {
                 {paymentResult && paymentResult?.status === 'success' && (
                   <OnboardingProcessing paymentResult={paymentResult?.data}/>
                 )}
-              </div>
+
+              </div>-
             </motion.div>
           )}
 

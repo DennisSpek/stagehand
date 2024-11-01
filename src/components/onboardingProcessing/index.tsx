@@ -16,7 +16,7 @@ import { BillingProfile } from '@/types/billing';
 
 export const OnboardingProcessing = ({ paymentResult }: { paymentResult: any }) => {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const [currentStep, setCurrentStep] = useState(0);
   const { userSelection: { selectedPlan, selectedVariant, selectedArtists, paymentDetails } } = useUserSelection();
   const [error, setError] = useState<string | null>(null);
