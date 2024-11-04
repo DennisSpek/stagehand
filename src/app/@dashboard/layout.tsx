@@ -30,7 +30,7 @@ export default async function DashboardLayout({
               <SideNavigation />
             </div>
           </div>
-          <div className='h-full flex'>
+          <div className='h-full flex-1'>
             {children}
           </div>
           <div className='w-[400px] h-[600px] bg-darkGray'>
