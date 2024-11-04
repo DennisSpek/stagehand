@@ -10,7 +10,9 @@ import { SearchResultModal } from '@/ui/searchResultModal';
 import { BlueRoundedButton } from '@/ui/buttons/blueRoundedButton';
 import { useUserSelection } from '@/context/onboarding/userSelection/context';
 import { useOnboarding } from '@/context/onboarding/breadcrumbs/context';
-import { FaLock } from 'react-icons/fa';
+
+import { LockedSlot } from '@/ui/slots/lockedSlot'; 
+import { OpenSlot } from '@/ui/slots/openSlot';
 
 export const ArtistSelection = () => {
   const { userSelection: { selectedArtists }, setSelectedArtists } = useUserSelection();
@@ -92,9 +94,9 @@ const SelectedItemsDisplay = ({ setActiveArtist, activeArtist }: SelectedItemsDi
               </div>
             );
           }
-          return <OpenItem key={index} number={index + 1} />;
+          return <OpenSlot key={index} number={index + 1} />;
         } else {
-          return <LockedItem key={index} />;
+          return <LockedSlot key={index} />;
         }
       })}
     </div>
@@ -137,31 +139,6 @@ const TrackPreferenceSelector = ({ activeArtist }: TrackPreferenceProps) => {
         Go to artist settings in the dashboard to update the selection.
       </p>
     </div>
-  );
-};
-
-const LockedItem = () => {
-  return (
-    <div className='items-center flex flex-col'>
-      <div className='w-[100px] h-[100px] bg-lightGray rounded-full flex items-center justify-center m-1'>
-        <FaLock />
-      </div>
-      <span>Locked</span>
-    </div>
-  );
-};
-
-const OpenItem = ({ number } : { number: number }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
-      className='items-center flex flex-col'
-    >
-      <div className='w-[100px] h-[100px] bg-white border border-lightGray rounded-full flex items-center justify-center m-1'></div>
-      <span>Artist {number}</span>
-    </motion.div>
   );
 };
 
