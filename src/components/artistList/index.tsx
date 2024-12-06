@@ -7,7 +7,7 @@ import { ArtistList as ArtistListType } from '@/types/artistList';
 export const ArtistList = ({ artistList }: { artistList: ArtistListType }) => {
   
   return (
-    <div className='flex gap-6'>
+    <div className='flex gap-2 items-center'>
       {Array.from({ length: 10 }).map((_, index) => {
         const artist = artistList.artists[index];
         if (artist) {
@@ -29,6 +29,7 @@ export const ArtistList = ({ artistList }: { artistList: ArtistListType }) => {
           return <LockedSlot key={index} className='w-[64px] h-[64px]'/>;
         }
       })}
+      <span className='font-sm'>More...</span>
     </div>
   );
 };

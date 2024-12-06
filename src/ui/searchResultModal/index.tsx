@@ -21,7 +21,7 @@ const SearchResultItem = ({ result }: { result: { name: string, images: { url: s
   return (
     <div className='flex items-center gap-2 p-2 hover:bg-gray transition duration-300 cursor-pointer'>
       <div className='w-8 h-8 rounded-full relative'>
-        <Image src={result?.images[0]?.url} alt='Picture of Artist' fill={true} className='rounded-full' sizes="(max-width: 16px) 100vw"/>
+        <Image src={result?.images[0]?.url ?? null} alt='Picture of Artist' fill={true} className='rounded-full' sizes="(max-width: 16px) 100vw"/>
       </div>
       <span>{result.name}</span>
     </div>

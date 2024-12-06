@@ -21,19 +21,21 @@ export default async function DashboardLayout({
     return onboarding
   } else {
     return (
-      <div className='h-full flex flex-col'>
+      <div className='max-h-screen h-full flex flex-col'>
         <Header/>
-        <main className='flex p-8 gap-8'>
-          <div className='w-[288px] flex flex-col gap-4 h-full'>
+        <main className='grid grid-cols-[288px,880px,400px] grid-rows-[64px,minmax(0,1fr)] gap-6 p-8 min-h-0'>
+          <div className='col-start-1 gap-4'>
             <ArtistSelector />
-            <div className='flex-1 overflow-auto'>
-              <SideNavigation />
-            </div>
           </div>
-          <div className='h-full flex-1'>
+          <div className='col-start-1 row-start-2 gap-4'>
+            <SideNavigation />
+          </div>
+          <div className='col-start-2 row-start-1 row-span-2'>
             {children}
           </div>
-          <div className='w-[400px] h-[600px] bg-darkGray'>
+          <div className='col-start-3 row-start-2 flex flex-col gap-6'>
+            <span><b>Welcome back, {session?.user?.name} 👋</b></span>
+            <div className='bg-darkGray h-[600px]'>3</div>
           </div>
         </main>
       </div>

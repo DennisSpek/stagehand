@@ -13,10 +13,11 @@ import { OnboardingMessage } from '@/components/DashboardMessages';
 import { useUserSelection } from '@/context/onboarding/userSelection/context';
 import { ArtistList } from '@/types/artistList';
 import { BillingProfile } from '@/types/billing';
+import { userAgent } from 'next/server';
 
 export const OnboardingProcessing = ({ paymentResult }: { paymentResult: any }) => {
   const router = useRouter();
-  const { data: session, status, update } = useSession();
+  const { data: session, update } = useSession();
   const [currentStep, setCurrentStep] = useState(0);
   const { userSelection: { selectedPlan, selectedVariant, selectedArtists, paymentDetails } } = useUserSelection();
   const [error, setError] = useState<string | null>(null);
@@ -31,8 +32,8 @@ export const OnboardingProcessing = ({ paymentResult }: { paymentResult: any }) 
 
   useEffect(() => {
     let isMounted = true;
-    let artistListProfile: ArtistList;
-    let billingProfile: BillingProfile | null;
+    let artistListProfile: ArtistList | null = null;
+    let billingProfile: BillingProfile | null = null;
 
     (async () => {
       try {
@@ -65,15 +66,10 @@ export const OnboardingProcessing = ({ paymentResult }: { paymentResult: any }) 
           };
           if (i === 2){
             // Update user session
-            //const updatedSession = { ...session, user: { ...session?.user, artistList: artistListProfile, billing: billingProfile }}
-            //await update(updatedSession);
+            const updatedUser = { ...session?.user, artistList: artistListProfile, billing: billingProfile }
+            await update({ user: updatedUser });
 
-            //TODO: Update user session and redirect to artist page
-            signOut();
-
-            //const artistId = selectedArtists[0].artistId;
-
-            //router.push(`${artistId}/home`);
+            router.refresh();
           };
 
           await delay(3000);

@@ -2,7 +2,7 @@ export const ImageContainer = ({ children, type = 'square' }: {children?: React.
 
   if( type === 'square') {
     return (
-      <div className='w-8 h-8 bg-gray rounded-full relative'>
+      <div className='w-8 h-8 bg-gray rounded-sm relative'>
         {children}
       </div>
     )

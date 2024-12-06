@@ -1,11 +1,11 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/ui/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/ui/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -22,10 +22,10 @@ const config: Config = {
       },
       borderRadius: {
         '2xl': '50px',
-        'xl': '24px',
-        'normal': '16px',
-        'sm': '8px',
-        'tiny': '4px',
+        xl: '24px',
+        normal: '16px',
+        sm: '8px',
+        tiny: '4px',
         'tiny/2': '2px',
       },
       fontSize: {
@@ -33,8 +33,15 @@ const config: Config = {
         xxl: '2rem',
         xl: '1.5rem',
         normal: '1rem',
-        sm: '0.75rem'
-      }
+        sm: '0.75rem',
+      },
+      lineHeight: {
+        '2xl': '3rem',
+        xxl: '2rem',
+        xl: '1.5rem',
+        normal: '1rem',
+        sm: '0.75rem',
+      },
     },
   },
   plugins: [],

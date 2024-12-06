@@ -1,26 +1,63 @@
-import { auth } from "@/auth"
-import { AnimatedLayout } from '@/ui/animatedLayout'
+'use client'
+import { useState } from 'react'
 
-export default async function HomeLayout({listeners, notifications, saves, tracks}: {listeners: React.ReactNode, notifications: React.ReactNode, saves: React.ReactNode, tracks: React.ReactNode}){
+import { useSession } from "next-auth/react"
+import { AnimatedLayout } from '@/ui/animatedLayout'
+import MetricCard from '@/ui/metricCard/MetricCard'
+
+import SimpleChart from '@/components/analytics/charts/simple'
+
+const testData = [
+  {
+    metric_name: 'streams',
+    timeserie: [
+      {
+        date: '2022-01-01',
+        value: 123456
+      },
+      {
+        date: '2022-01-02',
+        value: 123456
+      },
+      {
+        date: '2022-01-03',
+        value: 123456
+      }
+    ]
+  },
+  {
+    metric_name: 'saves',
+    timeserie: [
+      {
+        date: '2022-01-01',
+        value: 10
+      },
+      {
+        date: '2022-01-02',
+        value: 15
+      },
+      {
+        date: '2022-01-03',
+        value: 30
+      }
+    ]
+  }
+]
+
+export default function HomeLayout({listeners, notifications, saves, tracks}: {listeners: React.ReactNode, notifications: React.ReactNode, saves: React.ReactNode, tracks: React.ReactNode}){
   //const session = await auth();
+  const [activeMetrics, setActiveMetrics] = useState<string[]>(['streams']);
 
   return (
-    // <AnimatedLayout className='flex flex-1'>
-
-    // </AnimatedLayout>
-    (<div className='flex flex-1 flex-col bg-white rounded-normal border border-vividBlue p-8'>
-      <div className='grid grid-cols-3 gap-8 h-[613]'>
-        <div className='col-span-1 flex flex-col gap-8'>
-          {listeners}
-          {saves}
-        </div>
-        <div className='col-span-2 grid'>
-          {tracks}
-        </div>
+    <AnimatedLayout className='flex flex-col'>
+      <span>Last refresh xx:xx:xx</span>
+      <div className='flex gap-6'>
+        {/* <MetricCard title='Streams' />
+        <MetricCard title='Listeners' />
+        <MetricCard title='Saves' />
+        <MetricCard title='Followers' /> */}
       </div>
-      <div className='mt-8'>
-        {notifications}
-      </div>
-    </div>)
+      {/* <SimpleChart data={testData}/> */}
+    </AnimatedLayout>
   );
 }

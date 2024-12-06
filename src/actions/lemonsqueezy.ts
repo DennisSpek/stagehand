@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import {
   lemonSqueezySetup,
@@ -12,9 +12,10 @@ import {
   listProducts,
   listWebhooks,
   updateSubscription,
-  type ListProducts, type ListProductsParams,
-} from "@lemonsqueezy/lemonsqueezy.js";
-import { auth } from "@/auth";
+  type ListProducts,
+  type ListProductsParams,
+} from '@lemonsqueezy/lemonsqueezy.js';
+import { auth } from '@/auth';
 import { Plan } from '@/types/lemonSqueezy/packagePlan';
 
 interface detailsArray {
@@ -30,11 +31,7 @@ const detailsArray: detailsArray[] = [
     name: 'Artist Plan',
     artists: 1,
     tracks: 20,
-    features: [
-      'Connect 1 artist',
-      'Track 20 songs',
-      'Weekly notifications',
-    ],
+    features: ['Connect 1 artist', 'Track 20 songs', 'Weekly notifications'],
     trial: true,
   },
   {
@@ -61,8 +58,8 @@ const detailsArray: detailsArray[] = [
       'Multi-user access',
     ],
     trial: false,
-  }
-]
+  },
+];
 
 interface Variant {
   id: string;
@@ -106,31 +103,40 @@ export async function getProducts(): Promise<Plan[]> {
   const { data: products, included: variants } = data;
 
   const productArray = products.map((product) => {
-    const { name, description, from_price_formatted, to_price_formatted } = product.attributes;
-    const url = 'https://stagehand.lemonsqueezy.com/checkout/buy'
+    const { name, description, from_price_formatted, to_price_formatted } =
+      product.attributes;
+    const url = 'https://stagehand.lemonsqueezy.com/checkout/buy';
     const details = detailsArray.find((detail) => detail.name === name);
 
-    if(!details) {
+    if (!details) {
       throw new Error(`Details not found for product: ${name}`);
     }
 
-    const variantsArray = variants?.filter((variant) =>
-      product.relationships?.variants?.data?.some(({ id }) => variant.id === id)
-    )
-    .map((variant) => ({
-      id: variant.id,
-      name: variant.attributes.name as string,
-      description: variant.attributes.description as string,
-      price: variant.attributes.price as string,
-      interval: variant.attributes.interval as string,
-      url: `${url}/${variant.attributes.slug}`,
-    })) || [];
+    const variantsArray =
+      variants
+        ?.filter((variant) =>
+          product.relationships?.variants?.data?.some(
+            ({ id }) => variant.id === id
+          )
+        )
+        .map((variant) => ({
+          id: variant.id,
+          name: variant.attributes.name as string,
+          description: variant.attributes.description as string,
+          price: variant.attributes.price as string,
+          interval: variant.attributes.interval as string,
+          url: `${url}/${variant.attributes.slug}`,
+        })) || [];
 
     return {
       id: product.id,
       price: {
-        monthly: from_price_formatted ? from_price_formatted.replace(/\.00$/, '') : '',
-        yearly: to_price_formatted ? to_price_formatted.replace(/\.00$/, '') : '',
+        monthly: from_price_formatted
+          ? from_price_formatted.replace(/\.00$/, '')
+          : '',
+        yearly: to_price_formatted
+          ? to_price_formatted.replace(/\.00$/, '')
+          : '',
       },
       ...details,
       description: description.replace(/<p>/g, '').replace(/<\/p>/g, ''),
@@ -149,37 +155,34 @@ interface checkoutData {
   };
 }
 
-export async function getCheckoutURL(variantId: number, checkoutData: checkoutData): Promise<string | null> {
+export async function getCheckoutURL(
+  variantId: number,
+  checkoutData: checkoutData
+): Promise<string | null> {
   configureLemonSqueezy();
 
   const session = await auth();
 
-  console.log("Session available", session);
-
   if (!session?.user) {
-    throw new Error("User is not authenticated.");
+    throw new Error('User is not authenticated.');
   }
 
   try {
-    const checkout = await createCheckout(
-      storeId,
-      variantId,
-      {
-        checkoutOptions: {
-          embed: true,
-          media: false,
-          logo: true,
-        },
-        checkoutData: {
-          email: session.user.email ?? undefined,
-          ...checkoutData,
-        },
-        productOptions: {
-          enabledVariants: [variantId],
-          receiptThankYouNote: "Thank you for signing up to Lemon Stand!",
-        },
+    const checkout = await createCheckout(storeId, variantId, {
+      checkoutOptions: {
+        embed: true,
+        media: false,
+        logo: true,
       },
-    );
+      checkoutData: {
+        email: session.user.email ?? undefined,
+        ...checkoutData,
+      },
+      productOptions: {
+        enabledVariants: [variantId],
+        receiptThankYouNote: 'Thank you for signing up to Lemon Stand!',
+      },
+    });
 
     return checkout.data?.data.attributes.url ?? null;
   } catch (error) {
@@ -195,7 +198,7 @@ export async function verifySubscription(): Promise<boolean> {
   const session = await auth();
 
   if (!session?.user) {
-    throw new Error("User is not authenticated.");
+    throw new Error('User is not authenticated.');
   }
 
   const subscriptionId = session?.user?.billing?.billingPlan?.subscription_id;

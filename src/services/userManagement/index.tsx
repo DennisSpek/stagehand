@@ -2,7 +2,7 @@
 
 import { UserType } from '@/types/user';
 
-const url = process.env.NEXT_PUBLIC_STAGEHAND_USER_SERVICE_URL
+const url = process.env.NEXT_PUBLIC_STAGEHAND_API
 
 export const getUser = async (email: string, password: string) : Promise<UserType | null> => {
   // Logic to get user from database

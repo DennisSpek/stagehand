@@ -4,7 +4,7 @@ import { fetchTopTracks } from '@/services/spotify/fetchTopTracks';
 import { ArtistList, Artist } from '@/types/artistList';
 import { auth } from '@/auth';
 
-const userServiceUrl = process.env.NEXT_PUBLIC_STAGEHAND_USER_SERVICE_URL;
+const userServiceUrl = process.env.NEXT_PUBLIC_STAGEHAND_API;
 //const userServiceUrl = 'http://localhost:3001';
 //const apiKey = process.env.NEXT_PUBLIC_USER_SERVICE_API_KEY;
 
@@ -29,8 +29,6 @@ export async function createArtistList(selectedArtists: any, available: number):
     available: available,
   }
 
-  console.log("artistList")
-
   return artistList;
 }
 
@@ -52,9 +50,7 @@ export async function updateListById(obj: ArtistList): Promise<ArtistList | null
       artistListData: obj,
     };
 
-    console.log("body", body);
-
-    const response = await fetch(`${userServiceUrl}/artist_list/upsert`, {
+    const response = await fetch(`${userServiceUrl}/artistlist/upsert`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {

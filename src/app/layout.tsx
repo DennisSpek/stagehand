@@ -34,7 +34,7 @@ export default async function RootLayout({
           src="https://app.lemonsqueezy.com/js/lemon.js"
           strategy="lazyOnload"
         ></Script>
-        <SessionProvider>
+        <SessionProvider session={session}>
           {render}
         </SessionProvider>
       </body>

@@ -33,6 +33,7 @@ export const ArtistSelector = () => {
     const artist = items?.find((artist) => artist.artistId === firstPathPart);
 
     if(artist){
+      console.log(artist)
       setSelectedArtist(artist)
     }
     
@@ -41,18 +42,20 @@ export const ArtistSelector = () => {
   if (status === 'loading' && !selectedArtist) return <ArtistSelectorSkeleton />
   
   return (
-    <ElementContainer className='py-4 px-6 '>
+    <ElementContainer className='py-4 px-6'>
       <div className='relative'>
         <div className='flex items-center cursor-pointer' onClick={toggleDropdown}>
           <div className='flex gap-2 items-center'>
-            <ImageContainer>
+            <ImageContainer type='square'>
               {selectedArtist && (
-                <Image src={selectedArtist?.image} width={64} height={64} className={'rounded-full'} alt='Artist cover'/>
+                <Image src={selectedArtist?.image ?? null} width={64} height={64} alt='Artist cover'/>
               )}
             </ImageContainer>
             <div>
-              <label className='font-bold'>{selectedArtist?.name}</label>
-              <span className='block text-xs text-darkGray'>Tracks: {selectedArtist?.tracks.length}</span>
+              <label className='font-bold'>{selectedArtist?.name ?? 'Your Roster'}</label>
+              {selectedArtist && selectedArtist?.tracks?.length > 0 && (
+                <span className='block text-xs text-darkGray'>Tracks: {selectedArtist?.tracks.length}</span>
+              )}
             </div>
           </div>
         </div>

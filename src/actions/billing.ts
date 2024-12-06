@@ -1,15 +1,19 @@
-'use server'
+'use server';
 
 import { BillingProfile, BillingPlan, BillingDetails } from '@/types/billing';
 import { Plan } from '@/types/lemonSqueezy/packagePlan';
 import { Variant } from '@/types/lemonSqueezy/packageVariant';
-import { auth } from "@/auth";
+import { auth } from '@/auth';
 
-const userServiceUrl = process.env.NEXT_PUBLIC_STAGEHAND_USER_SERVICE_URL;
+const userServiceUrl = process.env.NEXT_PUBLIC_STAGEHAND_API;
 
-export const createBillingProfile = async (selectedPlan: Plan, selectedVariant: Variant, paymentDetails: BillingDetails, paymentResult: any): Promise<BillingProfile | null> => {
+export const createBillingProfile = async (
+  selectedPlan: Plan,
+  selectedVariant: Variant,
+  paymentDetails: BillingDetails,
+  paymentResult: any
+): Promise<BillingProfile | null> => {
   try {
-
     const session = await auth();
 
     const billing: BillingProfile = {
@@ -25,13 +29,15 @@ export const createBillingProfile = async (selectedPlan: Plan, selectedVariant: 
         price: selectedVariant.price,
         interval: selectedVariant.interval,
         trial: selectedPlan.trial,
-        trial_end: selectedPlan.trial ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) : new Date(),
+        trial_end: selectedPlan.trial
+          ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+          : new Date(),
         purchase_url: selectedVariant.url,
       },
-      billingDetails: paymentDetails
-    }
+      billingDetails: paymentDetails,
+    };
 
-    const response = await fetch(`${userServiceUrl}/billing/create`, {
+    const response = await fetch(`${userServiceUrl}/user/billing/create`, {
       method: 'POST',
       body: JSON.stringify(billing),
       headers: {
@@ -40,7 +46,7 @@ export const createBillingProfile = async (selectedPlan: Plan, selectedVariant: 
     });
 
     if (!response.ok) {
-      throw new Error('Failed to update artist list');
+      throw new Error('Failed to update billing');
     }
 
     const data = await response.json();
@@ -52,16 +58,21 @@ export const createBillingProfile = async (selectedPlan: Plan, selectedVariant: 
   }
 };
 
-export const getBillingProfile = async (id: string): Promise<BillingProfile | void> => {};
+export const getBillingProfile = async (
+  id: string
+): Promise<BillingProfile | void> => {};
 
-export const updateBillingProfile = async (id: string, billingProfile: BillingProfile): Promise<BillingProfile | null> => {
+export const updateBillingProfile = async (
+  id: string,
+  billingProfile: BillingProfile
+): Promise<BillingProfile | null> => {
   try {
     const body = {
       userId: id,
       billingData: billingProfile,
     };
 
-    console.log("body", body);
+    console.log('body', body);
 
     const response = await fetch(`${userServiceUrl}/billing/update`, {
       method: 'POST',
@@ -72,7 +83,7 @@ export const updateBillingProfile = async (id: string, billingProfile: BillingPr
     });
 
     if (!response.ok) {
-      throw new Error('Failed to update artist list');
+      throw new Error('Failed to update billing');
     }
 
     const data = await response.json();

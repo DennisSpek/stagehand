@@ -121,7 +121,7 @@ const SmallArtistVariant = ({ image, name, index } : { image: string, name: stri
             </motion.div>
           )}
         </AnimatePresence>
-        <Image src={image} alt='Picture of Artist' fill={true} className='rounded-full' />
+        <Image src={image ?? null} alt='Picture of Artist' fill={true} className='rounded-full' />
       </motion.div>
       <span className='text-sm'>{name}</span>
     </motion.div>
