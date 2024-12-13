@@ -6,7 +6,8 @@ const url = process.env.NEXT_PUBLIC_STAGEHAND_API
 
 export const getUser = async (email: string, password: string) : Promise<UserType | null> => {
   // Logic to get user from database
-  const response: any = await fetch(url + '/user/login', {
+  console.log('user', url + '/user/login')
+  const response: Response = await fetch(url + '/user/login', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
     headers: {
@@ -14,7 +15,7 @@ export const getUser = async (email: string, password: string) : Promise<UserTyp
     }
   });
 
-  if(response.status === 404) return null
+  if(!response.ok) return null
 
   const user: UserType = await response.json();
 
@@ -23,8 +24,7 @@ export const getUser = async (email: string, password: string) : Promise<UserTyp
 
 export const updateUser = async (user: UserType): Promise<UserType | null> => {
   // Logic to update user from database
-  console.log('user', user)
-  const response: any = await fetch(url + '/user/update', {
+  const response: Response = await fetch(url + '/user/update', {
     method: 'POST',
     body: JSON.stringify({ id: user.id, userData: user}),
     headers: {
@@ -41,7 +41,7 @@ export const updateUser = async (user: UserType): Promise<UserType | null> => {
 
 export const saveUser = async (email: string, password: string, name: string): Promise<UserType | null> => {
   // Logic to save user from database
-  const response: any = await fetch(url + '/user/register', {
+  const response: Response  = await fetch(url + '/user/register', {
     method: 'POST',
     body: JSON.stringify({ email, password, name }),
     headers: {
