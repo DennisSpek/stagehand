@@ -9,7 +9,6 @@ import { ElementContainer } from '@/ui/elementContainer';
 import { ImageContainer } from '@/ui/imagePlaceholder';
 
 import { useSession } from 'next-auth/react';
-import { Artist } from '@/types/artistList'
 
 const getFirstPathPart = (pathname: string): string | null => {
   const parts = pathname.split('/');
@@ -30,7 +29,7 @@ export const ArtistSelector = () => {
   useEffect(() => {
     const firstPathPart = getFirstPathPart(pathname);
 
-    const artist = items?.find((artist) => artist.artistId === firstPathPart);
+    const artist = items?.find((artist: Artist) => artist.artistId === firstPathPart);
 
     if(artist){
       console.log(artist)

@@ -1,7 +1,4 @@
-import { ArtistList } from './artistList';
-import { BillingProfile } from './billing';
-
-export type UserType = {
+type UserType = {
   id: string;
   name: string;
   last_name?: string;

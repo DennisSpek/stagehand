@@ -8,9 +8,6 @@ import { useUserSelection } from '@/context/onboarding/userSelection/context';
 import { PaymentSummaryContentSkeleton } from '@/components/paymentSummary/skeleton';
 import { HorizontalSeperator } from '@/ui/horizontalSeperator';
 
-import { Plan } from '@/types/lemonSqueezy/packagePlan';
-import { Variant } from '@/types/lemonSqueezy/packageVariant';
-
 interface PaymentSummaryProps {
   plan: Plan | null;
 }

@@ -16,7 +16,6 @@ import {
   type ListProductsParams,
 } from '@lemonsqueezy/lemonsqueezy.js';
 import { auth } from '@/auth';
-import { Plan } from '@/types/lemonSqueezy/packagePlan';
 
 interface detailsArray {
   name: string;

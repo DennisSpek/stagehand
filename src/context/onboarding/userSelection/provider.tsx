@@ -1,10 +1,5 @@
 import React, { createContext, useState, ReactNode, useContext } from 'react';
-import { UserSelectionState } from '@/types/onboardingSelection';
 import { UserSelectionContext } from '@/context/onboarding/userSelection/context';
-import { Plan } from '@/types/lemonSqueezy/packagePlan';
-import { Variant } from '@/types/lemonSqueezy/packageVariant';
-
-import { BillingDetails } from '@/types/billing';
 
 // selectedPlan: {
 //   artists: 50,

@@ -2,9 +2,8 @@ import Link from 'next/link';
 import { OpenSlot } from '@/ui/slots/openSlot';
 import { LockedSlot } from '@/ui/slots/lockedSlot';
 import { ItemSlot } from '@/ui/slots/itemSlot';
-import { ArtistList as ArtistListType } from '@/types/artistList';
 
-export const ArtistList = ({ artistList }: { artistList: ArtistListType }) => {
+export const ArtistList = ({ artistList }: { artistList: ArtistList }) => {
   
   return (
     <div className='flex gap-2 items-center'>

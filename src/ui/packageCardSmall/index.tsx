@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import { Plan } from '@/types/lemonSqueezy/packagePlan';
 import { CheckMark } from '@/icons/checkmark'
 
 interface PackageCardProps {

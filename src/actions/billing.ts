@@ -1,8 +1,5 @@
 'use server';
 
-import { BillingProfile, BillingPlan, BillingDetails } from '@/types/billing';
-import { Plan } from '@/types/lemonSqueezy/packagePlan';
-import { Variant } from '@/types/lemonSqueezy/packageVariant';
 import { auth } from '@/auth';
 
 const userServiceUrl = process.env.NEXT_PUBLIC_STAGEHAND_API;

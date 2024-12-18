@@ -16,8 +16,6 @@ import { PaymentSummary } from '@/components/paymentSummary';
 
 import { getProducts } from '@/actions/lemonsqueezy';
 
-import { Variant } from '@/types/lemonSqueezy/packageVariant';
-import { Plan } from '@/types/lemonSqueezy/packagePlan';
 import { LockedOverlay } from '@/ui/lockedOverlay';
 
 export const PackageSelection = ({ small = false } : { small?: boolean }) => {

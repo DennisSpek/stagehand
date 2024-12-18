@@ -1,12 +1,12 @@
-export type Artist = {
+type Artist = {
   artistId: string;
   name: string;
   image: string;
-  tracks: { trackId: string }[]
-}
+  tracks: { trackId: string }[];
+};
 
-export type ArtistList = {
+type ArtistList = {
   artists: Artist[];
   occupied: number;
   available: number;
-}
+};

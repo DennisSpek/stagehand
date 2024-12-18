@@ -1,8 +1,4 @@
 import React, { createContext, useState, ReactNode, useContext } from 'react';
-import { UserSelectionState } from '@/types/onboardingSelection';
-import { Plan } from '@/types/lemonSqueezy/packagePlan';
-import { Variant } from '@/types/lemonSqueezy/packageVariant';
-import { BillingDetails } from '@/types/billing';
 
 interface UserSelectionContextProps {
   userSelection: UserSelectionState;

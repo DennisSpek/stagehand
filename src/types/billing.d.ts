@@ -1,6 +1,4 @@
-import { UserType } from '@/types/user';
-
-export interface BillingDetails {
+type BillingDetails = {
   full_name: string;
   address: string;
   address_apt?: string;
@@ -8,9 +6,9 @@ export interface BillingDetails {
   address_state?: string;
   address_city: string;
   address_zip: string;
-}
+};
 
-export interface BillingPlan {
+type BillingPlan = {
   subscription_id: string;
   subscription_status: string;
   product_id: string;
@@ -22,11 +20,11 @@ export interface BillingPlan {
   trial: boolean;
   trial_end: Date;
   purchase_url: string;
-}
+};
 
-export interface BillingProfile {
+type BillingProfile = {
   user: UserType | undefined;
   customer_id?: string;
   billingPlan: BillingPlan;
   billingDetails: BillingDetails;
-}
+};

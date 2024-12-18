@@ -124,11 +124,11 @@ const TrackPreferenceSelector = ({ activeArtist }: TrackPreferenceProps) => {
         {activeArtist && (
           <div className='flex justify-center gap-4 mt-2'>
             <div className='flex gap-1 justify-center items-center'>
-              <CheckboxNormal name={`trackPreference-${activeArtist.artistId}`} onClick={() => handlePreferenceChange('top')} active={selectedArtists.find(( artist ) => artist?.artistId === activeArtist?.artistId)?.trackPreference === 'top'}/>
+              <CheckboxNormal name={`trackPreference-${activeArtist.artistId}`} onClick={() => handlePreferenceChange('top')} active={selectedArtists.find(( artist: Partial<Artist> ) => artist?.artistId === activeArtist?.artistId)?.trackPreference === 'top'}/>
               <label className='text-sm'>Top performing</label>
             </div>
             <div className='flex gap-1 justify-center items-center'>
-              <CheckboxNormal name={`trackPreference-${activeArtist.artistId}`} onClick={() => handlePreferenceChange('custom')} active={selectedArtists.find(( artist ) => artist?.artistId === activeArtist?.artistId)?.trackPreference === 'custom'}/>
+              <CheckboxNormal name={`trackPreference-${activeArtist.artistId}`} onClick={() => handlePreferenceChange('custom')} active={selectedArtists.find(( artist: Partial<Artist> ) => artist?.artistId === activeArtist?.artistId)?.trackPreference === 'custom'}/>
               <label className='text-sm'>Custom</label>
             </div>
           </div>

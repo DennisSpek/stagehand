@@ -11,8 +11,7 @@ import { updateUser } from '@/services/userManagement';
 import { Modal } from '@/ui/modal';
 import { OnboardingMessage } from '@/components/DashboardMessages';
 import { useUserSelection } from '@/context/onboarding/userSelection/context';
-import { ArtistList } from '@/types/artistList';
-import { BillingProfile } from '@/types/billing';
+
 import { userAgent } from 'next/server';
 
 export const OnboardingProcessing = ({ paymentResult }: { paymentResult: any }) => {

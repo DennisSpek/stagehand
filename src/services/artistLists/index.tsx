@@ -1,7 +1,6 @@
 'use server'
 
 import { fetchTopTracks } from '@/services/spotify/fetchTopTracks';
-import { ArtistList, Artist } from '@/types/artistList';
 import { auth } from '@/auth';
 
 const userServiceUrl = process.env.NEXT_PUBLIC_STAGEHAND_API;

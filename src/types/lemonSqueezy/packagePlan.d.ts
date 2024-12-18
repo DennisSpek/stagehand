@@ -1,5 +1,4 @@
-import { Variant } from './packageVariant';
-export interface Plan {
+type Plan = {
   id: string;
   name: string;
   price: {
@@ -12,4 +11,4 @@ export interface Plan {
   description: string;
   trial: boolean;
   variants: Variant[];
-}
+};
