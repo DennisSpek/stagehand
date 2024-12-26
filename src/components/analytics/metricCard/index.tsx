@@ -1,7 +1,7 @@
 import { ElementContainer } from '@/ui/elementContainer'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa6'
 import clsx from 'clsx'
-
+import { Counter } from '@/ui/animatedCounter'
 interface MetricCardProps {
   head: { title: string, description: string };
   data: { total: string, change: number; }
@@ -19,7 +19,7 @@ const MetricCard = ({ head, data, active, onClick }: MetricCardProps) => {
         <label className='text-sm'>{title}</label>
         <i>i</i>
       </div>
-      <h2 className='text-xxl'>{total}</h2>
+      <h2 className='text-xxl'><Counter number={parseInt(total)}/></h2>
       
       <div className='flex items-center gap-1'>
         {change > 0 ? (

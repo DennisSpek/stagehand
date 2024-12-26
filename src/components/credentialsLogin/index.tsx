@@ -1,9 +1,12 @@
+'use client'
+
 import { InputField } from '@/ui/elements/inputField'
 import { BlackRoundedButton } from '@/ui/buttons/blackRoundedButton'
 import { signIn } from 'next-auth/react';
 import { Formik, Field, Form, FormikHelpers, ErrorMessage } from 'formik';
 import { credentialsSchema } from '@/lib/zod'
 import { withZodSchema } from 'formik-validator-zod'
+import { useLoading } from '@/context/loading/context';
 
 interface Values {
   [key: string]: string;
@@ -12,6 +15,8 @@ interface Values {
 }
 
 export const CredentialsLogin = ({ callback }: { callback: () => void}) => {
+  const { setLoading } = useLoading();
+
   return (
     <div>
       <Formik
@@ -22,12 +27,14 @@ export const CredentialsLogin = ({ callback }: { callback: () => void}) => {
         validate={withZodSchema(credentialsSchema)}
         onSubmit={async( values: Values, { setSubmitting }: FormikHelpers<Values>) => {
           setSubmitting(true);
+          setLoading(true);
           try {    
             await signIn("credentials", values)
           } catch(error){
             console.log("Error:", error);
           } finally {
             setSubmitting(false);
+            setLoading(false);
           }
         }}
       >

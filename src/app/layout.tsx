@@ -5,6 +5,7 @@ import "./globals.css";
 import clsx from 'clsx';
 import { auth } from "@/auth"
 import { SessionProvider } from 'next-auth/react';
+
 import Script from 'next/script'
 
 const inter = Inter({ subsets: ["latin"] });

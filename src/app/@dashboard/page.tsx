@@ -13,19 +13,17 @@ export default async function Page() {
   const session = await auth();
 
   return (
-    <SessionProvider>
-      <div className='flex flex-col gap-6 grid'>
-        <div>
-          {session?.user?.artistList && (
-            <ArtistList artistList={session.user.artistList} />
-          )}
-        </div>
-        <MetricGroup />
-        <div className='flex gap-6'>
-          <TopSelection head={{ title: 'Top Artists', description: 'Testing' }} dataKey={{ name: 'artists', cta: '' }} />
-          <TopSelection head={{ title: 'Top Tracks', description: 'Testing' }} dataKey={{ name: 'tracks', cta: '' }} />
-        </div>
+    <div className='flex flex-col gap-6 grid'>
+      <div>
+        {session?.user?.artistList && (
+          <ArtistList artistList={session.user.artistList} />
+        )}
       </div>
-    </SessionProvider>
+      <MetricGroup />
+      <div className='flex gap-6'>
+        <TopSelection head={{ title: 'Top Artists', description: 'Testing' }} dataKey={{ name: 'artists', cta: '' }} />
+        <TopSelection head={{ title: 'Top Tracks', description: 'Testing' }} dataKey={{ name: 'tracks', cta: '' }} />
+      </div>
+    </div>
   )
 }
