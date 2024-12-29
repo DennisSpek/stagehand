@@ -6,6 +6,7 @@ import { registerUser } from '@/auth.config'
 import { credentialsSchema } from '@/lib/zod'
 import { withZodSchema } from 'formik-validator-zod'
 import { signIn } from 'next-auth/react';
+import { useLoading } from '@/context/loading/context';
 
 interface Values {
   email: string;
@@ -14,7 +15,7 @@ interface Values {
 }
 
 export const CredentialsRegister = ({ callback }: { callback: () => void }) => {
-
+  const { setLoading } = useLoading();
   return (
     <div>
       <p className='text-sm text-center'>Create your account:</p>
@@ -26,6 +27,7 @@ export const CredentialsRegister = ({ callback }: { callback: () => void }) => {
         }}
         validate={withZodSchema(credentialsSchema)}
         onSubmit={async( values: Values, { setSubmitting }: FormikHelpers<Values>) => {
+          setLoading(true);
           setSubmitting(true);
           try {    
             const user = await registerUser(values.email, values.password, values.name)
@@ -39,6 +41,7 @@ export const CredentialsRegister = ({ callback }: { callback: () => void }) => {
             console.log("Error:", error);
           } finally {
             setSubmitting(false);
+            setLoading(false);
           }
         }}
       >

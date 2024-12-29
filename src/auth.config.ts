@@ -15,6 +15,8 @@ export async function registerUser(
   // Add User or return null
   const result: UserType | null = await saveUser(email, pwHash, name);
 
+  console.log('User registered:', result);
+
   if (result) return result;
 
   return null;

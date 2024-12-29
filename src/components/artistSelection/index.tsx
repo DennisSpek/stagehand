@@ -172,7 +172,7 @@ export const ArtistItem = ({ active, artistName, image, onRemove }: ArtistItemPr
         animate={{ borderColor: active ? '#5650F5' : '#EBEBEB' }} // Tailwind colors in hex
         transition={{ duration: 0.3 }}
       >
-        <Image src={image} alt='Picture of Artist' fill={true} className='rounded-full' />
+        <Image src={image ?? null} alt='Picture of Artist' fill={true} className='rounded-full' />
         <AnimatePresence>
           {isHovered && onRemove && (
             <motion.button

@@ -8,6 +8,12 @@ const userServiceUrl = process.env.NEXT_PUBLIC_STAGEHAND_API;
 //const apiKey = process.env.NEXT_PUBLIC_USER_SERVICE_API_KEY;
 
 export async function createArtistList(selectedArtists: any, available: number): Promise<ArtistList> {
+  const session = await auth();
+
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+  
   const artists: Artist[] = [];
   for (const artist of selectedArtists) {
     const topTracks = await fetchTopTracks(artist.artistId);
@@ -28,7 +34,28 @@ export async function createArtistList(selectedArtists: any, available: number):
     available: available,
   }
 
-  return artistList;
+  const body = {
+    userId: session.user?.id,
+    artistListData: artistList,
+  };
+
+  console.log("body", body);
+
+  const response = await fetch(`${userServiceUrl}/artistlist/create`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update artist list');
+  }
+
+  const data = await response.json();
+
+  return data;
 }
 
 /**
@@ -49,7 +76,7 @@ export async function updateListById(obj: ArtistList): Promise<ArtistList | null
       artistListData: obj,
     };
 
-    const response = await fetch(`${userServiceUrl}/artistlist/upsert`, {
+    const response = await fetch(`${userServiceUrl}/artistlist/update`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
